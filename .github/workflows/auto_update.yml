@@ -1,0 +1,42 @@
+name: Auto Update CI
+
+on:
+  schedule:
+    - cron: '00 10 * * MON'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: setup requirements and envs
+      env:
+        TZ: 'JST'
+        LANG: 'C'
+      run: |
+        sudo apt update
+        sudo apt install libarchive-tools
+        echo "RUN_DATETIME=$(date)" >> $GITHUB_ENV
+        
+    - name: setup git
+      run: |
+        git config --global user.name "yuk7"
+        git config --global user.email "${{secrets.ACTIONS_EMAIL}}"
+    - name: clone tags
+      run: |
+        git clone https://${{github.actor}}:${{github.token}}@github.com/${{github.repository}} -b main
+        rm -rf .git
+        mv FreshEmoji/.git ./
+        rm -rf FreshEmoji
+    - name: fetch updates
+      run: |
+        make update
+        make clean
+    - name: push to main
+      run: |
+        TZ=JST date
+        git add .
+        bash -c "git commit -m \"update at ${{env.RUN_DATETIME}}\" || true"
+        git push --force-with-lease origin main
