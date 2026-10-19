@@ -16,8 +16,8 @@ test:
 
 update:
 	$(DLR) $(DLR_FLAGS) https://github.com/googlefonts/noto-emoji/archive/refs/heads/main.zip -o upstream.zip
-	bsdtar -xf upstream.zip noto-emoji-main/fonts/NotoColorEmoji.ttf
-	mv noto-emoji-main/fonts/NotoColorEmoji.ttf system/fonts/
+	bsdtar -xf upstream.zip noto-emoji-main/2D/fonts/NotoColorEmoji.ttf
+	mv noto-emoji-main/2D/fonts/NotoColorEmoji.ttf system/fonts/
 
 clean:
 	rm -f $(OUT_ZIP)
