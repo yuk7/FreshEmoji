@@ -1,4 +1,7 @@
 [FreshEmoji](https://github.com/yuk7/FreshEmoji) module's changelog
+## v18.0.0
+Update emoji to Unicode 18.0 v1
+
 ## v17.0.0
 Update emoji to Unicode 17.0 (mk1)
 
